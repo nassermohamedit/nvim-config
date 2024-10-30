@@ -96,6 +96,7 @@ return packer.startup(function(use)
 	use("nvim-treesitter/playground")
 	use("theprimeagen/harpoon")
 	use("mbbill/undotree")
+    use("mfussenegger/nvim-dap")
 	use({
 		"nvim-neo-tree/neo-tree.nvim",
 		branch = "v3.x",
