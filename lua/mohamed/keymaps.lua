@@ -25,7 +25,7 @@ keymap("n", "<C-j>", "<C-w>j", opts)
 keymap("n", "<C-k>", "<C-w>k", opts)
 keymap("n", "<C-l>", "<C-w>l", opts)
 
-keymap("n", "<leader>e", ":Lex 30<cr>", opts)
+keymap("n", "<leader>e", ":Neotree <cr>", opts)
 
 -- Resize with arrows
 keymap("n", "<C-Up>", ":resize -2<CR>", opts)
@@ -70,7 +70,6 @@ keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
 keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
-
 -- New
 vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
@@ -85,26 +84,26 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("n", "<leader>vwm", function()
-    require("vim-with-me").StartVimWithMe()
+	require("vim-with-me").StartVimWithMe()
 end)
 vim.keymap.set("n", "<leader>svwm", function()
-    require("vim-with-me").StopVimWithMe()
+	require("vim-with-me").StopVimWithMe()
 end)
 
 -- greatest remap ever
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- next greatest remap ever : asbjornHaland
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
-vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 -- This is going to get me cancelled
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
 vim.keymap.set("n", "Q", "<nop>")
-vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+--vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
@@ -115,10 +114,30 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
-vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.dotfiles/nvim/.config/nvim/lua/theprimeagen/packer.lua<CR>");
-vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>");
+vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.dotfiles/nvim/.config/nvim/lua/mohamed/packer.lua<CR>")
+vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>")
 
 vim.keymap.set("n", "<leader><leader>", function()
-    vim.cmd("so")
+	vim.cmd("so")
 end)
 
+-- Music
+vim.api.nvim_set_keymap("n", "<leader>5", ':lua os.execute("mocp --play")<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>7", ':lua os.execute("mocp -G")<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>6", ':lua os.execute("mocp -f")<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>4", ':lua os.execute("mocp -r")<CR>', { noremap = true, silent = true })
+
+-- Neotree
+vim.api.nvim_set_keymap("n", "<leader>ff", ":Neotree reveal position=float<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n","<leader>e",":Neotree action=focus position=right<CR>",{ noremap = true, silent = true })
+vim.api.nvim_set_keymap("n","<leader>o",":Neotree action=focus toggle=true position=right<CR>",{ noremap = true, silent = true })
+vim.keymap.set("n","<leader>fe", function()
+    local dir_input = vim.fn.input("dir: ")
+    if dir_input and dir_input ~= "" then
+        vim.cmd("Neotree action=focus position=float dir=" .. dir_input)
+    end
+end)
+vim.api.nvim_set_keymap("n","<leader>fb",":Neotree source=buffers action=focus position=float<CR>",{ noremap = true, silent = true })
+
+-- LazyGit
+vim.keymap.set('n', '<leader>gg', ':LazyGit<CR>')

@@ -1,5 +1,5 @@
 require 'nvim-treesitter.configs'.setup {
-  ensure_installed = { "help", "java", "rust", "c", "zig", "go", "python", "lua", "vim", "vimdoc", "markdown", "markdown_inline" },
+  ensure_installed = { "java", "rust", "c", "zig", "go", "python", "lua", "vim", "vimdoc", "markdown", "markdown_inline" },
 
   sync_install = false,
   auto_install = true,
