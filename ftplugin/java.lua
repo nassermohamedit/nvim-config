@@ -207,3 +207,11 @@ vim.keymap.set(
 )
 vim.diagnostic.enable(false);
 
+require("camellia").setup()
+
+vim.api.nvim_set_keymap(
+	"n",
+	"<leader><leader>",
+	"<Cmd>lua require'camellia'.run_main()<CR>",
+	{ noremap = true, silent = true }
+)
