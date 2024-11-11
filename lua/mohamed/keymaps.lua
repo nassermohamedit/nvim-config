@@ -141,3 +141,12 @@ vim.api.nvim_set_keymap("n","<leader>fb",":Neotree source=buffers action=focus p
 
 -- LazyGit
 vim.keymap.set('n', '<leader>gg', ':LazyGit<CR>')
+
+-- nvim-tmux-navigator
+vim.keymap.set("n", '<C-h>', ':TmuxNavigateLeft<CR>')
+vim.keymap.set("n", '<C-l>', ':TmuxNavigateRight<CR>')
+vim.keymap.set("n", '<C-j>', ':TmuxNavigateDown<CR>')
+vim.keymap.set("n", '<C-k>', ':TmuxNavigateUp<CR>')
+
+-- javaplus
+vim.keymap.set("n", "<C-a>", ':lua require("camellia").add_to_classpath()<Cr>')

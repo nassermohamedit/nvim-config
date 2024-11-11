@@ -92,8 +92,16 @@ return packer.startup(function(use)
 
 	use({ "catppuccin/nvim", as = "catppuccin" })
 	use("xiyaowong/transparent.nvim")
+    use 'voldikss/vim-floaterm'
 
-	use("nvim-treesitter/playground")
+    use {
+        "/home/nasser/projects/camellia"
+    }
+
+	use {
+        "nvim-treesitter/playground",
+        lazy = false
+    }
 	use("theprimeagen/harpoon")
 	use("mbbill/undotree")
     use("mfussenegger/nvim-dap")
@@ -126,6 +134,10 @@ return packer.startup(function(use)
 			},
 		},
 	})
+
+    use "AbdelrahmanDwedar/awesome-nvim-colorschemes"
+
+    use("christoomey/vim-tmux-navigator")
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
