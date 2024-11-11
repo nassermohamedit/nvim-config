@@ -186,3 +186,23 @@ vim.api.nvim_set_keymap(
 	"<Cmd>lua require'jdtls'.test_nearest_method()<CR>",
 	{ noremap = true, silent = true }
 )
+
+
+local diagnostics_visible = true
+
+local function toggle_diagnostics()
+    print("Switching diagnostics")
+    diagnostics_visible = not diagnostics_visible
+    if diagnostics_visible then
+        vim.diagnostic.enable(true);
+    else
+        vim.diagnostic.enable(false);
+    end
+end
+
+vim.keymap.set(
+	"n",
+	"<leader>z",
+    toggle_diagnostics
+)
+
