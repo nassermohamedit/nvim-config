@@ -205,4 +205,5 @@ vim.keymap.set(
 	"<leader>z",
     toggle_diagnostics
 )
+vim.diagnostic.enable(false);
 
