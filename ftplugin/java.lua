@@ -33,12 +33,26 @@ local config = {
 		workspace_dir,
 	},
 	init_options = {},
-	root_dir = vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw" }, { upward = true })[1]),
+	root_dir = vim.fs.dirname(vim.fs.find({".samad",  "gradlew", "build.gradle", ".git", "mvnw"}, { upward = true })[1]),
 	settings = {
 		java = {
 			eclipse = {
 				downloadSources = true,
 			},
+            completion = {
+                importOrder = {
+                    "java",
+                    "javax",
+                    "com",
+                    "org"
+                },
+            },
+            sources = {
+                organizeImports = {
+                    starThreshold = 5,
+                    staticStarThreshold = 5,
+                },
+            },
 			signatureHelp = { enabled = true },
 			configuration = {
 				updateBuildConfiguration = "interactive",
@@ -80,7 +94,7 @@ local config = {
 }
 
 bundles = {
-    vim.fn.glob(home .. "/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar", 1),
+	vim.fn.glob(home .. "/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar", 1),
 }
 
 vim.list_extend(bundles, vim.split(vim.fn.glob(home .. "/vscode-java-test/server/*.jar", 1), "\n"))
@@ -92,7 +106,6 @@ require("jdtls").start_or_attach(config)
 
 local opts = { noremap = true, silent = true }
 
-vim.api.nvim_set_keymap("n", "$$", "$a", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
 vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
 vim.api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
@@ -187,26 +200,6 @@ vim.api.nvim_set_keymap(
 	{ noremap = true, silent = true }
 )
 
-
-local diagnostics_visible = true
-
-local function toggle_diagnostics()
-    print("Switching diagnostics")
-    diagnostics_visible = not diagnostics_visible
-    if diagnostics_visible then
-        vim.diagnostic.enable(true);
-    else
-        vim.diagnostic.enable(false);
-    end
-end
-
-vim.keymap.set(
-	"n",
-	"<leader>z",
-    toggle_diagnostics
-)
-vim.diagnostic.enable(false);
-
 require("camellia").setup()
 
 vim.api.nvim_set_keymap(
@@ -216,12 +209,11 @@ vim.api.nvim_set_keymap(
 	{ noremap = true, silent = true }
 )
 
+--vim.api.nvim_create_autocmd("LspAttach", {
+--  callback = function(args)
+--    local client = vim.lsp.get_client_by_id(args.data.client_id)
+--    client.server_capabilities.semanticTokensProvider = nil
+--  end,
+--});
 
-vim.cmd("syntax off")
 
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    client.server_capabilities.semanticTokensProvider = nil
-  end,
-});

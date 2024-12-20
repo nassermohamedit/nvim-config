@@ -42,9 +42,10 @@ keymap("n", "<A-j>", "<Esc>:m .+1<CR>==gi", opts)
 keymap("n", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
 
 -- Insert --
--- Press jk fast to enter
+-- Press jk fast to enter normal mode
 keymap("i", "jk", "<ESC>", opts)
-keymap("i", "kj", "<ESC>", opts)
+-- Press kj fast to entern insert mode
+keymap("n", "kj", "i", opts)
 
 -- Visual --
 -- Stay in indent mode
@@ -70,8 +71,6 @@ keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
 keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
--- New
-vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -121,7 +120,7 @@ vim.keymap.set("n", "<leader><leader>", function()
 	vim.cmd("so")
 end)
 
--- Music
+-- Play music
 vim.api.nvim_set_keymap("n", "<leader>5", ':lua os.execute("mocp --play")<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>7", ':lua os.execute("mocp -G")<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>6", ':lua os.execute("mocp -f")<CR>', { noremap = true, silent = true })
@@ -129,24 +128,54 @@ vim.api.nvim_set_keymap("n", "<leader>4", ':lua os.execute("mocp -r")<CR>', { no
 
 -- Neotree
 vim.api.nvim_set_keymap("n", "<leader>ff", ":Neotree reveal position=float<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n","<leader>e",":Neotree action=focus position=right<CR>",{ noremap = true, silent = true })
-vim.api.nvim_set_keymap("n","<leader>o",":Neotree action=focus toggle=true position=right<CR>",{ noremap = true, silent = true })
-vim.keymap.set("n","<leader>fe", function()
-    local dir_input = vim.fn.input("dir: ")
-    if dir_input and dir_input ~= "" then
-        vim.cmd("Neotree action=focus position=float dir=" .. dir_input)
-    end
+vim.api.nvim_set_keymap("n", "<leader>e", ":Neotree action=focus position=right<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+	"n",
+	"<leader>o",
+	":Neotree action=focus toggle=true position=right<CR>",
+	{ noremap = true, silent = true }
+)
+vim.keymap.set("n", "<leader>fe", function()
+	local dir_input = vim.fn.input("dir: ")
+	if dir_input and dir_input ~= "" then
+		vim.cmd("Neotree action=focus position=float dir=" .. dir_input)
+	end
 end)
-vim.api.nvim_set_keymap("n","<leader>fb",":Neotree source=buffers action=focus position=float<CR>",{ noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+	"n",
+	"<leader>fb",
+	":Neotree source=buffers action=focus position=float<CR>",
+	{ noremap = true, silent = true }
+)
 
 -- LazyGit
-vim.keymap.set('n', '<leader>gg', ':LazyGit<CR>')
+vim.keymap.set("n", "<leader>gg", ":LazyGit<CR>")
 
 -- nvim-tmux-navigator
-vim.keymap.set("n", '<C-h>', ':TmuxNavigateLeft<CR>')
-vim.keymap.set("n", '<C-l>', ':TmuxNavigateRight<CR>')
-vim.keymap.set("n", '<C-j>', ':TmuxNavigateDown<CR>')
-vim.keymap.set("n", '<C-k>', ':TmuxNavigateUp<CR>')
+vim.keymap.set("n", "<C-h>", ":TmuxNavigateLeft<CR>")
+vim.keymap.set("n", "<C-l>", ":TmuxNavigateRight<CR>")
+vim.keymap.set("n", "<C-j>", ":TmuxNavigateDown<CR>")
+vim.keymap.set("n", "<C-k>", ":TmuxNavigateUp<CR>")
 
--- javaplus
+-- camellia
 vim.keymap.set("n", "<C-a>", ':lua require("camellia").add_to_classpath()<Cr>')
+
+-- Switch annoying diagnostics off, fucking LSPs they think they know better
+local diagnostics_visible = false
+vim.diagnostic.enable(false)
+
+local function toggle_diagnostics()
+	diagnostics_visible = not diagnostics_visible
+	if diagnostics_visible then
+		print("diagnostics on")
+		vim.diagnostic.enable(true)
+	else
+		print("diagnostics off")
+		vim.diagnostic.enable(false)
+	end
+end
+
+vim.keymap.set("n", "<leader>z", toggle_diagnostics)
+
+vim.api.nvim_set_keymap("n", "$$", "$a", { noremap = true, silent = true })
+
